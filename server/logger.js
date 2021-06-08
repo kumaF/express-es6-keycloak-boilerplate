@@ -1,8 +1,7 @@
 import log from 'npmlog';
 
 /**
- *  ===== log levels available =====
- * 
+ *  ===== log levels =====
  *  - silly
  *  - verbose
  *  - info

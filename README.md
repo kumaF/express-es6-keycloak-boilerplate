@@ -4,6 +4,7 @@
 
  - Keycloak connect - https://www.npmjs.com/package/keycloak-connect
  - Keycloak admin client - https://www.npmjs.com/package/keycloak-admin
+ - Open Id client - https://www.npmjs.com/package/openid-client
  - Keycloak docs - https://www.keycloak.org/docs/latest/securing_apps/index.html#_nodejs_adapter
  - Keycloak definitions - https://www.keycloak.org/docs-api/5.0/rest-api/index.html#_userrepresentation
 
