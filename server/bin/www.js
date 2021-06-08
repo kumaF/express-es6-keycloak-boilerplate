@@ -5,16 +5,16 @@
  */
 
 import app from '../app';
-import debugLib from 'debug';
 import http from 'http';
 
-const debug = debugLib('notice-sens:server');
+import { logger } from '../logger';
+import { PORT } from '../configs';
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(PORT);
 app.set('port', port);
 
 /**
@@ -67,11 +67,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      logger(`${bind} requires elevated privileges`, 'error');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      logger(`${bind} is already in use`, 'error');
       process.exit(1);
       break;
     default:
@@ -88,5 +88,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  logger(`listening on ${bind}`);
 }

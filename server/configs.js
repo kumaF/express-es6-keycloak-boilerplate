@@ -1,0 +1,18 @@
+'use strict';
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+
+export const PORT = process.env.PORT;
+export const KEYCLOCK_CONFIGS = {
+    KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
+    KEYCLOAK_ADMIN_USERNAME: process.env.KEYCLOAK_ADMIN_USERNAME,
+    KEYCLOAK_ADMIN_PASSWORD: process.env.KEYCLOAK_ADMIN_PASSWORD,
+    KEYCLOAK_ADMIN_GRANT_TYPE: process.env.KEYCLOAK_ADMIN_GRANT_TYPE,
+    KEYCLOAK_ADMIN_CLIENT_ID: process.env.KEYCLOAK_ADMIN_CLIENT_ID,
+    KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
+    KEYCLOAK_SERVER_URL: process.env.KEYCLOAK_SERVER_URL,
+    KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET
+}
