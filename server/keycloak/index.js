@@ -2,8 +2,10 @@
 'use strict';
 
 import { StatusCodes } from 'http-status-codes';
-import { initKeycloakAdminClient } from './clients';
-import { KeycloakError } from '../exceptions';
+import { errors } from 'openid-client';
+import { initKeycloakAdminClient, initOpenIdClient } from './clients';
+import { KeycloakError, OIdError } from '../exceptions';
+import { KEYCLOCK_CONFIGS } from '../configs';
 
 export async function kcInsertUser(payload) {
     let _keycloakAdminClient;
@@ -34,6 +36,30 @@ export async function kcRemoveUser(id) {
             throw e;
         } else if (e.isAxiosError) {
             throw new KeycloakError(e.response.data.errorMessage, e.response.status);
+        }
+    }
+}
+
+export async function oidAccessToken(payload) {
+    let _oidClient;
+
+    try {
+        _oidClient = await initOpenIdClient();
+        
+        payload.grant_type = KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_GRANT_TYPE;
+        payload.client_secret = KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_SECRET;
+
+        let tokenSet = await _oidClient.grant(payload);
+        return {...tokenSet};
+    } catch (e) {
+        if (e instanceof OIdError) {
+            throw e;
+        } else if (e instanceof errors.OPError) {
+            if (e.error === 'invalid_grant') {
+                throw new OIdError(e.error_description, StatusCodes.UNAUTHORIZED);
+            } else {
+                throw new OIdError(e.message, StatusCodes.BAD_REQUEST);
+            }
         }
     }
 }

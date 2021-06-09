@@ -29,3 +29,10 @@ export class ValidateError extends CustomError {
         this.name = 'ValidateError';
     }
 }
+
+export class OIdError extends CustomError {
+    constructor(message, status) {
+        super(message, status);
+        this.name = 'OIdError';
+    }
+}

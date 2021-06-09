@@ -6,6 +6,6 @@ import * as authController from '../controllers/auth-controller';
 
 const router = new Router();
 
-router.get('', authController.generateAccessToken);
+router.post('/token', authController.generateAccessToken);
 
 export default router;

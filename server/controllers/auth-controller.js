@@ -4,21 +4,41 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import { StatusCodes } from 'http-status-codes';
 
-import { buildResponse } from '../utils';
+import { validateTokenGenSchema } from '../validators';
+import { buildResponse, exceptionHandler } from '../utils';
+import { logger } from '../logger';
+import { oidAccessToken } from '../keycloak';
 
 export async function generateAccessToken(req, res) {
-    // const openIdClient = await initOpenIdClient();
-    // let tokenSet = await openIdClient.grant({
-    //     grant_type: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_GRANT_TYPE,
-    //     username: 'kumaf',
-    //     password: 'pass@123',
-    //     client_secret: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_SECRET
-    // });
+    let data = {}
 
-    let data = {
-        statusCode: StatusCodes.OK,
-        // data: {...tokenSet}
-    };
+    try {
+        await validateTokenGenSchema(req.body);
+
+        let payload = req.body;
+
+        if (payload.grantType === 'password') {
+            let tokenSet = await oidAccessToken({
+                username: payload.user.userName,
+                password: payload.user.password
+            });
+
+            data = {
+                statusCode: StatusCodes.ACCEPTED,
+                data: {
+                    accessToken: tokenSet.access_token,
+                    expiresAt: tokenSet.expires_at,
+                    refreshToken: tokenSet.refresh_token,
+                    tokenType: tokenSet.token_type,
+                    sessionState: tokenSet.session_state,
+                    scope: tokenSet.scope
+                }
+            };
+        }
+    } catch (e) {
+        logger(e, 'error')
+        data = await exceptionHandler(e);
+    }
 
     return await buildResponse(res, data);
 }

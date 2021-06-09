@@ -6,7 +6,7 @@ import { Issuer } from 'openid-client';
 import  KcAdminClient from 'keycloak-admin';
 
 import { KEYCLOCK_CONFIGS } from '../configs';
-import { KeycloakError } from '../exceptions';
+import { KeycloakError, OIdError } from '../exceptions';
 
 export async function initKeycloakAdminClient() {
     try {
@@ -31,12 +31,16 @@ export async function initKeycloakAdminClient() {
 
 export async function initOpenIdClient() {
     const issuerUrl = `${KEYCLOCK_CONFIGS.KEYCLOAK_SERVER_URL}/${KEYCLOCK_CONFIGS.KEYCLOAK_ISSUER_PATH}/${KEYCLOCK_CONFIGS.KEYCLOAK_REALM}`
-    const keycloakIssuer = await Issuer.discover(issuerUrl);
 
-    const oidClient = new keycloakIssuer.Client({
-        client_id: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_ID,
-        token_endpoint_auth_method: 'none',
-    });
+    try {
+        const keycloakIssuer = await Issuer.discover(issuerUrl);
+        const oidClient = new keycloakIssuer.Client({
+            client_id: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_ID,
+            token_endpoint_auth_method: 'none',
+        });
 
-    return oidClient;
+        return oidClient;
+    } catch (e) {
+        throw new OIdError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
 }
