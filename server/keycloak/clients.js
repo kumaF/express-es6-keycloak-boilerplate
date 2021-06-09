@@ -1,14 +1,14 @@
 /* eslint-disable no-console*/
 'use strict';
 
+import { StatusCodes } from 'http-status-codes';
 import { Issuer } from 'openid-client';
 import  KcAdminClient from 'keycloak-admin';
 
-import { logger } from './logger';
-import { KEYCLOCK_CONFIGS } from './configs';
-import { KeycloakError } from './exceptions';
+import { KEYCLOCK_CONFIGS } from '../configs';
+import { KeycloakError } from '../exceptions';
 
-export async function initKeycloakAdminCLient() {
+export async function initKeycloakAdminClient() {
     try {
         const kcAdminClient = new KcAdminClient();
 
@@ -25,7 +25,7 @@ export async function initKeycloakAdminCLient() {
 
         return kcAdminClient;
     } catch (e) {
-        throw new KeycloakError(e.response.data.error_description);
+        throw new KeycloakError(e.response.data.error_description, StatusCodes.INTERNAL_SERVER_ERROR);
     }
 };
 

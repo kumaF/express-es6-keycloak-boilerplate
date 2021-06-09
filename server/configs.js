@@ -23,8 +23,15 @@ export const KEYCLOCK_CONFIGS = {
 
     KEYCLOAK_SERVER_URL: process.env.KEYCLOAK_SERVER_URL,
     KEYCLOAK_ISSUER_PATH: process.env.KEYCLOAK_ISSUER_PATH
-}
+};
+
+export const MONGO_CONFIGS = {
+    MONGO_HOST: process.env.MONGO_HOST,
+    MONGO_PORT: process.env.MONGO_PORT,
+    MONGO_DB_NAME: process.env.MONGO_DB_NAME,
+    MONGO_TIMEOUT: process.env.MONGO_TIMEOUT
+};
 
 export const REGEXES = {
     PASSWORD: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
-}
+};

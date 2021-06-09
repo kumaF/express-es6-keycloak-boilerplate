@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
 import { DECORATOR } from './configs';
+import './db/mongodb';
 
 import healthRouter from './routes/health-routes';
 import usersRoutes from './routes/users-routes';
