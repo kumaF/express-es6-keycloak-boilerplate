@@ -78,7 +78,6 @@ export async function oidRefreshToken(refreshToken) {
 
         return {...tokenSet};
     } catch (e) {
-        console.log(e)
         if (e instanceof OIdError) {
             throw e;
         } else if (e instanceof errors.OPError) {
