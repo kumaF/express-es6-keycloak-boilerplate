@@ -13,53 +13,52 @@ import { buildResponse, exceptionHandler } from '../utils';
 import { logger } from '../logger';
 
 export async function createUser(req, res) {
-    let data = {};
-    let userId = null;
+	let data = {};
+	let userId = null;
 
-    try {
-        await validateUserCreateSchema(req.body);
+	try {
+		await validateUserCreateSchema(req.body);
 
-        let payload = req.body;
-        userId = await kcInsertUser({
-            firstName: payload.firstName,
-            lastName: payload.lastName,
-            username: payload.userName,
-            email: payload.email,
-            emailVerified: true,
-            enabled: true,
-            attributes: {
-                mobileNo: payload.mobileNo
-            },
-            credentials:[
-                {
-                    type:'password', 
-                    value: payload.password,
-                    temporary: false
-                }
-            ]
-        }); 
+		let payload = req.body;
+		userId = await kcInsertUser({
+			firstName: payload.firstName,
+			lastName: payload.lastName,
+			username: payload.userName,
+			email: payload.email,
+			emailVerified: true,
+			enabled: true,
+			attributes: {
+				mobileNo: payload.mobileNo,
+			},
+			credentials: [
+				{
+					type: 'password',
+					value: payload.password,
+					temporary: false,
+				},
+			],
+		});
 
-        payload.userId = userId;
-        delete payload.password
-        
-        await dbInsertUser(payload);
+		payload.userId = userId;
+		delete payload.password;
 
-        data = {
-            statusCode: StatusCodes.CREATED,
-            msg: 'New user created.'
-        };
-    } catch (e) {
-        if (userId !== null && e instanceof MongoError) {
-            await kcRemoveUser(userId);
-        }
+		await dbInsertUser(payload);
 
-        logger(e, 'error')
-        data = await exceptionHandler(e);
-    }
+		data = {
+			statusCode: StatusCodes.CREATED,
+			msg: 'New user created.',
+		};
+	} catch (e) {
+		if (userId !== null && e instanceof MongoError) {
+			await kcRemoveUser(userId);
+		}
 
-    return await buildResponse(res, data);
+		logger(e, 'error');
+		data = await exceptionHandler(e);
+	}
+
+	return await buildResponse(res, data);
 }
-
 
 // export async function createUser(req, res) {
 //     let data = {};
@@ -81,16 +80,16 @@ export async function createUser(req, res) {
 //             },
 //             credentials:[
 //                 {
-//                     type:'password', 
+//                     type:'password',
 //                     value: payload.password,
 //                     temporary: false
 //                 }
 //             ]
-//         }); 
+//         });
 
 //         payload.userId = userId;
 //         delete payload.password
-        
+
 //         await dbInsertUser(payload);
 
 //         data = {

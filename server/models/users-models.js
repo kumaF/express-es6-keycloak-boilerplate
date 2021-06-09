@@ -10,48 +10,50 @@ const UserSchema = new Schema(
 			type: String,
 			unique: true,
 			required: true,
-			index: true
+			index: true,
 		},
 		firstName: {
 			type: String,
 			required: true,
-			trim: true
+			trim: true,
 		},
-        lastName: {
-            type: String,
+		lastName: {
+			type: String,
 			required: true,
-			trim: true
-        },
-        userName: {
-            type: String,
+			trim: true,
+		},
+		userName: {
+			type: String,
 			required: true,
-			trim: true
-        },
-        email: {
-            type: String,
+			trim: true,
+		},
+		email: {
+			type: String,
 			unique: true,
 			required: true,
 			trim: true,
-			index: true
-        },
-        mobileNo: {
-            type: String,
+			index: true,
+		},
+		mobileNo: {
+			type: String,
 			unique: true,
 			required: true,
 			trim: true,
-			index: true
-        },
-		favourites: [{
-			type: String
-		}],
-        isActive: {
-            type: Boolean,
-            default: false
-        },
-        isDelete: {
-            type: Boolean,
-            default: false
-        }
+			index: true,
+		},
+		favourites: [
+			{
+				type: String,
+			},
+		],
+		isActive: {
+			type: Boolean,
+			default: false,
+		},
+		isDelete: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{ timestamps: true, versionKey: false }
 );

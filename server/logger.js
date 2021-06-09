@@ -13,7 +13,7 @@ import log from 'npmlog';
  *  - error
  */
 
-export function logger(msg, level='info') {
-    const datetime = new Date().toISOString()
-    log.log(level, datetime , msg);
+export function logger(msg, level = 'info') {
+	const datetime = new Date().toISOString();
+	log.log(level, datetime, msg);
 }
