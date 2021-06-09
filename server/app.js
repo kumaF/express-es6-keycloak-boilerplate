@@ -1,3 +1,6 @@
+/* eslint-disable no-console*/
+'use strict';
+
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';

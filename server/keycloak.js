@@ -2,10 +2,11 @@
 'use strict';
 
 import { Issuer } from 'openid-client';
-import { KcAdminClient } from 'keycloak-admin';
+import  KcAdminClient from 'keycloak-admin';
 
 import { logger } from './logger';
 import { KEYCLOCK_CONFIGS } from './configs';
+import { KeycloakError } from './exceptions';
 
 export async function initKeycloakAdminCLient() {
     try {
@@ -24,7 +25,7 @@ export async function initKeycloakAdminCLient() {
 
         return kcAdminClient;
     } catch (e) {
-        logger(e, 'error');
+        throw new KeycloakError(e.response.data.error_description);
     }
 };
 

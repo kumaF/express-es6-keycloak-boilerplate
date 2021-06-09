@@ -1,3 +1,4 @@
+/* eslint-disable no-console*/
 'use strict';
 
 import dotenv from 'dotenv';
@@ -6,6 +7,7 @@ dotenv.config();
 
 export const DECORATOR = process.env.DECORATOR;
 export const PORT = process.env.PORT;
+
 export const KEYCLOCK_CONFIGS = {
     KEYCLOAK_ADMIN_USERNAME: process.env.KEYCLOAK_ADMIN_USERNAME,
     KEYCLOAK_ADMIN_PASSWORD: process.env.KEYCLOAK_ADMIN_PASSWORD,
@@ -21,4 +23,8 @@ export const KEYCLOCK_CONFIGS = {
 
     KEYCLOAK_SERVER_URL: process.env.KEYCLOAK_SERVER_URL,
     KEYCLOAK_ISSUER_PATH: process.env.KEYCLOAK_ISSUER_PATH
+}
+
+export const REGEXES = {
+    PASSWORD: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
 }

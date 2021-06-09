@@ -1,3 +1,6 @@
+/* eslint-disable no-console*/
+'use strict';
+
 import log from 'npmlog';
 
 /**

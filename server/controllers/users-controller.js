@@ -5,18 +5,21 @@ import regeneratorRuntime from 'regenerator-runtime';
 import { StatusCodes } from 'http-status-codes';
 
 import { initKeycloakAdminCLient } from '../keycloak';
-import { buildResponse } from '../utils';
+import { buildResponse, exceptionHandler } from '../utils';
+import { userCreateSchema } from '../validators/users-validators';
 
 export async function createUser(req, res) {
-    let data = {
-        statusCode: StatusCodes.OK,
-        msg: 'Application is running successfully'
-    };
+    let data = {};
 
-    const keycloakAdminClient = await initKeycloakAdminCLient();
-    let users = await keycloakAdminClient.users.find();
+    try {
+        await userCreateSchema.validateAsync(req.body);
 
-    console.log(users);
+        const keycloakAdminClient = await initKeycloakAdminCLient();
+
+    } catch (e) {
+        data = await exceptionHandler(e);
+        return await buildResponse(res, data);
+    }
 
     return await buildResponse(res, data);
 }
