@@ -67,7 +67,7 @@ export async function oidAccessToken(payload) {
 					StatusCodes.UNAUTHORIZED
 				);
 			} else {
-				throw new OIdError(e.message, StatusCodes.BAD_REQUEST);
+				throw new OIdError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
 			}
 		}
 	}
@@ -96,7 +96,7 @@ export async function oidRefreshToken(refreshToken) {
 					StatusCodes.UNAUTHORIZED
 				);
 			} else {
-				throw new OIdError(e.message, StatusCodes.BAD_REQUEST);
+				throw new OIdError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
 			}
 		}
 	}
