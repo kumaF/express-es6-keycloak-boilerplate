@@ -22,3 +22,18 @@ export async function kcInsertUser(payload) {
         }
     }
 }
+
+export async function kcRemoveUser(id) {
+    let _keycloakAdminClient;
+
+    try {
+        _keycloakAdminClient = await initKeycloakAdminClient();
+        await _keycloakAdminClient.users.del({id: id});
+    } catch (e) {
+        if (e instanceof KeycloakError) {
+            throw e;
+        } else if (e.isAxiosError) {
+            throw new KeycloakError(e.response.data.errorMessage, e.response.status);
+        }
+    }
+}

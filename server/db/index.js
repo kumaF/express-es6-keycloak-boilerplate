@@ -9,6 +9,6 @@ import { MongoError } from '../exceptions';
 
 export async function dbInsertUser(payload) {
     await User.create(payload).catch((err) => {
-        throw new MongoError(err.message, StatusCodes.BAD_REQUEST);
+        throw new MongoError(err.message, StatusCodes.INTERNAL_SERVER_ERROR);
     });
 };
