@@ -63,3 +63,30 @@ export async function oidAccessToken(payload) {
         }
     }
 }
+
+export async function oidRefreshToken(refreshToken) {
+    let _oidClient;
+
+    try {
+        _oidClient = await initOpenIdClient();
+
+        let tokenSet = await _oidClient.refresh(refreshToken, {
+            exchangeBody: {
+                client_secret: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_SECRET,
+            }
+        });
+
+        return {...tokenSet};
+    } catch (e) {
+        console.log(e)
+        if (e instanceof OIdError) {
+            throw e;
+        } else if (e instanceof errors.OPError) {
+            if (e.error === 'invalid_grant') {
+                throw new OIdError(e.error_description, StatusCodes.UNAUTHORIZED);
+            } else {
+                throw new OIdError(e.message, StatusCodes.BAD_REQUEST);
+            }
+        }
+    }
+}

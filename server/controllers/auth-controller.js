@@ -7,7 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 import { validateTokenGenSchema } from '../validators';
 import { buildResponse, exceptionHandler } from '../utils';
 import { logger } from '../logger';
-import { oidAccessToken } from '../keycloak';
+import { oidAccessToken, oidRefreshToken } from '../keycloak';
 
 export async function generateAccessToken(req, res) {
     let data = {}
@@ -16,15 +16,20 @@ export async function generateAccessToken(req, res) {
         await validateTokenGenSchema(req.body);
 
         let payload = req.body;
+        let tokenSet = null;
 
         if (payload.grantType === 'password') {
-            let tokenSet = await oidAccessToken({
+            tokenSet = await oidAccessToken({
                 username: payload.user.userName,
                 password: payload.user.password
             });
+        } else if (payload.grantType === 'refreshToken') {
+            tokenSet = await oidRefreshToken(payload.refreshToken);
+        }
 
+        if (tokenSet !== null) {
             data = {
-                statusCode: StatusCodes.ACCEPTED,
+                statusCode: StatusCodes.OK,
                 data: {
                     accessToken: tokenSet.access_token,
                     expiresAt: tokenSet.expires_at,
