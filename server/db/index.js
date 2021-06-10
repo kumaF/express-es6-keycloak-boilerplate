@@ -18,10 +18,7 @@ export async function dbGetUserByKey(filter) {
 		const doc = await User.findOne(filter).exec();
 
 		if (doc === null) {
-			throw new MongoError(
-				'invalid credentials',
-				StatusCodes.UNAUTHORIZED
-			);
+			throw new MongoError('invalid credentials', StatusCodes.UNAUTHORIZED);
 		}
 
 		return doc;

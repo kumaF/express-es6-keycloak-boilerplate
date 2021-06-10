@@ -20,10 +20,7 @@ export async function kcInsertUser(payload) {
 		if (e instanceof KeycloakError) {
 			throw e;
 		} else if (e.isAxiosError) {
-			throw new KeycloakError(
-				e.response.data.errorMessage,
-				e.response.status
-			);
+			throw new KeycloakError(e.response.data.errorMessage, e.response.status);
 		}
 	}
 }
@@ -38,10 +35,7 @@ export async function kcRemoveUser(id) {
 		if (e instanceof KeycloakError) {
 			throw e;
 		} else if (e.isAxiosError) {
-			throw new KeycloakError(
-				e.response.data.errorMessage,
-				e.response.status
-			);
+			throw new KeycloakError(e.response.data.errorMessage, e.response.status);
 		}
 	}
 }
@@ -62,10 +56,7 @@ export async function oidAccessToken(payload) {
 			throw e;
 		} else if (e instanceof errors.OPError) {
 			if (e.error === 'invalid_grant') {
-				throw new OIdError(
-					e.error_description,
-					StatusCodes.UNAUTHORIZED
-				);
+				throw new OIdError(e.error_description, StatusCodes.UNAUTHORIZED);
 			} else {
 				throw new OIdError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
 			}
@@ -91,10 +82,7 @@ export async function oidRefreshToken(refreshToken) {
 			throw e;
 		} else if (e instanceof errors.OPError) {
 			if (e.error === 'invalid_grant') {
-				throw new OIdError(
-					e.error_description,
-					StatusCodes.UNAUTHORIZED
-				);
+				throw new OIdError(e.error_description, StatusCodes.UNAUTHORIZED);
 			} else {
 				throw new OIdError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
 			}
