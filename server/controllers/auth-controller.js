@@ -47,7 +47,7 @@ export async function generateAccessToken(req, res) {
 	return await buildResponse(res, data);
 }
 
-export async function _loginForAccessToken(payload) {
+async function _loginForAccessToken(payload) {
 	let data = { password: payload.password };
 
 	try {
