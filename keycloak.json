@@ -1,0 +1,12 @@
+{
+	"realm": "AndersensRealm",
+	"auth-server-url": "http://localhost:8080/auth/",
+	"ssl-required": "external",
+	"resource": "andersens-client",
+	"verify-token-audience": true,
+	"credentials": {
+		"secret": "3cad87a1-936b-4b5d-a07d-d8455fa67cad"
+	},
+	"use-resource-role-mappings": true,
+	"confidential-port": 0
+}

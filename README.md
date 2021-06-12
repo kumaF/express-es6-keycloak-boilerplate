@@ -2,6 +2,7 @@
 
 ## References
 
+-   Keycloak utils - http://www.keycloak.org/keycloak-nodejs-auth-utils/index.html
 -   Keycloak connect - https://www.npmjs.com/package/keycloak-connect
 -   Keycloak admin client - https://www.npmjs.com/package/keycloak-admin
 -   Open Id client - https://www.npmjs.com/package/openid-client

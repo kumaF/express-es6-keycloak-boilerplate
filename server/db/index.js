@@ -13,9 +13,9 @@ export async function dbInsertUser(payload) {
 	});
 }
 
-export async function dbGetUserByKey(filter) {
+export async function dbGetUserByKey(filter, project = {}) {
 	try {
-		const doc = await User.findOne(filter).exec();
+		const doc = await User.findOne(filter, project).exec();
 
 		if (doc === null) {
 			throw new MongoError(
@@ -25,11 +25,23 @@ export async function dbGetUserByKey(filter) {
 		}
 
 		return doc;
-	} catch (err) {
-		if (err instanceof MongoError) {
-			throw err;
+	} catch (e) {
+		if (e instanceof MongoError) {
+			throw e;
 		}
 
-		throw new MongoError(err.message, StatusCodes.INTERNAL_SERVER_ERROR);
+		throw new MongoError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+	}
+}
+
+export async function dbUpdateUserByKey(filter, data = {}) {
+	try {
+		await User.findOneAndUpdate(filter, { $set: data });
+	} catch (e) {
+		if (e instanceof MongoError) {
+			throw e;
+		}
+
+		throw new MongoError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
 	}
 }
