@@ -52,6 +52,7 @@
 		"joi": "^17.4.0",
 		"keycloak-admin": "^1.14.17",
 		"keycloak-connect": "^13.0.1",
+		"lodash": "^4.17.21",
 		"mongoose": "^5.12.13",
 		"morgan": "~1.10.0",
 		"nodemon": "^2.0.7",

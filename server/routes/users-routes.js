@@ -9,6 +9,15 @@ const router = new Router();
 const keycloak = getKeycloakClient();
 
 router.post('', usersController.createUser);
-router.get('', [keycloak.middleware(), keycloak.enforcer({response_mode: 'token'})], usersController.getCurrentUser);
+router.get(
+	'/me',
+	[keycloak.middleware(), keycloak.enforcer({ response_mode: 'token' })],
+	usersController.getCurrentUser
+);
+router.patch(
+	'',
+	[keycloak.middleware(), keycloak.enforcer({ response_mode: 'token' })],
+	usersController.updateUser
+);
 
 export default router;

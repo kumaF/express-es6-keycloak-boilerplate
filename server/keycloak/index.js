@@ -51,6 +51,24 @@ export async function kcRemoveUser(id) {
 	}
 }
 
+export async function kcUpdateUser(id, payload) {
+	let _keycloakAdminClient;
+
+	try {
+		_keycloakAdminClient = await initKeycloakAdminClient();
+		await _keycloakAdminClient.users.update({ id: id }, payload);
+	} catch (e) {
+		if (e instanceof KeycloakError) {
+			throw e;
+		} else if (e.isAxiosError) {
+			throw new KeycloakError(
+				e.response.data.errorMessage,
+				e.response.status
+			);
+		}
+	}
+}
+
 export async function oidAccessToken(payload) {
 	let _oidClient;
 

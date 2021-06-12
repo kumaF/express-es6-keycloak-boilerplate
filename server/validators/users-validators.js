@@ -14,3 +14,13 @@ export const userCreateSchema = joi.object({
 	// postalCode: joi.string().required(),
 	password: joi.string().regex(REGEXES.PASSWORD).required(),
 });
+
+export const userUpdateSchema = joi.object({
+	firstName: joi.string(),
+	lastName: joi.string(),
+	userName: joi.string(),
+	email: joi.string().email(),
+	mobileNo: joi.string(),
+	// postalCode: joi.string().required(),
+	password: joi.string().regex(REGEXES.PASSWORD),
+});
