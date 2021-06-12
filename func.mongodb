@@ -6,4 +6,4 @@
 // Select the database to use.
 use('andersens-dev');
 
-db.users.findOneAndUpdate({userId: 'b747a98b-4a73-4e4a-89c8-4654a56c5ad0'}, {$set: {isActive: true}})
+db.users.findOneAndUpdate({userId: 'b747a98b-4a73-4e4a-89c8-4654a56c5ad0'}, {$set: {isDelete: false}})

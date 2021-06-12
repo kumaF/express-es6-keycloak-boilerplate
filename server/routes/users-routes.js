@@ -19,5 +19,10 @@ router.patch(
 	[keycloak.middleware(), keycloak.enforcer({ response_mode: 'token' })],
 	usersController.updateUser
 );
+router.delete(
+	'',
+	[keycloak.middleware(), keycloak.enforcer({ response_mode: 'token' })],
+	usersController.deleteUser
+);
 
 export default router;

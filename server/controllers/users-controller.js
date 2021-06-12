@@ -133,6 +133,31 @@ export async function updateUser(req, res) {
 	return await buildResponse(res, data);
 }
 
+export async function deleteUser(req, res) {
+	let data = {};
+
+	try {
+		let token = req.kauth.grant.access_token.content;
+
+		if (!token) {
+			data = {
+				statusCode: StatusCodes.UNAUTHORIZED,
+				msg: 'not a valid token',
+			};
+		} else {
+			await dbUpdateUserByKey({ userId: token.sub }, { isDelete: true });
+			data = {
+				statusCode: StatusCodes.OK,
+				msg: 'user deleted',
+			};
+		}
+	} catch (e) {
+		data = await exceptionHandler(e);
+	}
+
+	return await buildResponse(res, data);
+}
+
 async function _mapUpdateBody(data = {}) {
 	let updateBody = {};
 
