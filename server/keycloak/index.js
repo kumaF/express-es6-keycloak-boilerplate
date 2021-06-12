@@ -3,9 +3,11 @@
 
 import { StatusCodes } from 'http-status-codes';
 import { errors } from 'openid-client';
-import { initKeycloakAdminClient, initOpenIdClient } from './clients';
+import { initKeycloakAdminClient } from './keycloak-admin';
+import { initOpenIdClient } from './open-id-client';
 import { KeycloakError, OIdError } from '../exceptions';
 import { KEYCLOCK_CONFIGS } from '../configs';
+
 
 export async function kcInsertUser(payload) {
 	let _keycloakAdminClient;
