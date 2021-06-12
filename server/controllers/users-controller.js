@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import { validateUserCreateSchema } from '../validators';
 import { kcInsertUser, kcRemoveUser } from '../keycloak';
-import { dbInsertUser } from '../db';
+import { dbInsertUser, dbGetUserByKey } from '../db';
 import { MongoError } from '../exceptions';
 
 import { buildResponse, exceptionHandler } from '../utils';
@@ -53,57 +53,37 @@ export async function createUser(req, res) {
 			await kcRemoveUser(userId);
 		}
 
-		logger(e, 'error');
 		data = await exceptionHandler(e);
 	}
 
 	return await buildResponse(res, data);
 }
 
-// export async function createUser(req, res) {
-//     let data = {};
-//     let userId = null;
+export async function getCurrentUser(req, res) {
+	let data = {};
 
-//     try {
-//         await validateUserCreateSchema(req.body);
+	try {
+		let token = req.kauth.grant.access_token.content;
 
-//         let payload = req.body;
-//         userId = await kcInsertUser({
-//             firstName: payload.firstName,
-//             lastName: payload.lastName,
-//             username: payload.userName,
-//             email: payload.email,
-//             emailVerified: true,
-//             enabled: true,
-//             attributes: {
-//                 mobileNo: payload.mobileNo
-//             },
-//             credentials:[
-//                 {
-//                     type:'password',
-//                     value: payload.password,
-//                     temporary: false
-//                 }
-//             ]
-//         });
+		if (!token) {
+			data = {
+				statusCode: StatusCodes.UNAUTHORIZED,
+				msg: 'not a valid token',
+			};
+		} else {
+			let user = await dbGetUserByKey(
+				{ userId: token.sub },
+				{ _id: 0, isActive: 0, isDelete: 0, createdAt: 0, updatedAt: 0 }
+			);
+	
+			data = {
+				statusCode: StatusCodes.OK,
+				data: user
+			};
+		}
+	} catch (e) {
+		data = await exceptionHandler(e);
+	}
 
-//         payload.userId = userId;
-//         delete payload.password
-
-//         await dbInsertUser(payload);
-
-//         data = {
-//             statusCode: StatusCodes.CREATED,
-//             msg: 'New user created.'
-//         };
-//     } catch (e) {
-//         if (userId !== null && e instanceof MongoError) {
-//             await kcRemoveUser(userId);
-//         }
-
-//         logger(e, 'error')
-//         data = await exceptionHandler(e);
-//     }
-
-//     return await buildResponse(res, data);
-// }
+	return await buildResponse(res, data)
+}

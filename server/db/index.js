@@ -13,9 +13,9 @@ export async function dbInsertUser(payload) {
 	});
 }
 
-export async function dbGetUserByKey(filter) {
+export async function dbGetUserByKey(filter, project = {}) {
 	try {
-		const doc = await User.findOne(filter).exec();
+		const doc = await User.findOne(filter, project).exec();
 
 		if (doc === null) {
 			throw new MongoError(
