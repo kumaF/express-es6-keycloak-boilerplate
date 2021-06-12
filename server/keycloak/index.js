@@ -5,9 +5,12 @@ import { StatusCodes } from 'http-status-codes';
 import { errors } from 'openid-client';
 import { initKeycloakAdminClient } from './keycloak-admin';
 import { initOpenIdClient } from './open-id-client';
+import { initKeycloakClient } from './keycloak-client';
 import { KeycloakError, OIdError } from '../exceptions';
 import { KEYCLOCK_CONFIGS } from '../configs';
+import { logger } from '../logger';
 
+var _keycloakClient;
 
 export async function kcInsertUser(payload) {
 	let _keycloakAdminClient;
@@ -90,4 +93,20 @@ export async function oidRefreshToken(refreshToken) {
 			}
 		}
 	}
+}
+
+export function initKeycloak() {
+	if (_keycloakClient) {
+		logger('keycloak client already initialized', 'warn');
+	}
+
+	_keycloakClient = initKeycloakClient();
+}
+
+export function getKeycloakClient() {
+	if (!_keycloakClient) {
+		initKeycloak();
+	}
+
+	return _keycloakClient;
 }

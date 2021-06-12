@@ -3,10 +3,10 @@
 import { Router } from 'express';
 
 import * as healthController from '../controllers/health-controller';
-import KeycloakClient from '../keycloak/keycloak-client';
+import { getKeycloakClient } from '../keycloak';
 
 const router = new Router();
-const keycloak = KeycloakClient.getKeycloak();
+const keycloak = getKeycloakClient();
 
 router.get('', [keycloak.middleware(), keycloak.protect()], healthController.checkHealth);
 
