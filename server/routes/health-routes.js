@@ -8,6 +8,10 @@ import { getKeycloakClient } from '../keycloak';
 const router = new Router();
 const keycloak = getKeycloakClient();
 
-router.get('', [keycloak.middleware(), keycloak.protect()], healthController.checkHealth);
+router.get(
+	'',
+	[keycloak.middleware(), keycloak.protect()],
+	healthController.checkHealth
+);
 
 export default router;
