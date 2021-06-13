@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# sh ./setup.sh
+sh ./setup.sh
 
 npm install --only=production
 
