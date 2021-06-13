@@ -1,0 +1,6 @@
+.gitignore
+.prettierignore
+.prettierrc.json
+*.mongodb
+*.sh
+*.md
