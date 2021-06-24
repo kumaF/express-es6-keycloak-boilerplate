@@ -12,11 +12,16 @@ const mongoUrl = `mongodb://${MONGO_CONFIGS.MONGO_HOST}:${MONGO_CONFIGS.MONGO_PO
 
 mongoose
 	.connect(mongoUrl, {
+		auth: {
+			user: '',
+			password: ''
+		},
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useCreateIndex: true,
 		connectTimeoutMS: MONGO_CONFIGS.MONGO_TIMEOUT,
 		serverSelectionTimeoutMS: MONGO_CONFIGS.MONGO_TIMEOUT,
+		authSource: 'admin'
 	})
 	.catch((err) =>
 		logger(`database connection failed ::: ${err.message}`, 'error')

@@ -1,6 +1,7 @@
 /* eslint-disable no-console*/
 'use strict';
 
+import regeneratorRuntime from 'regenerator-runtime';
 import { MemoryStore } from 'express-session';
 import Keycloak from 'keycloak-connect';
 import { StatusCodes } from 'http-status-codes';
@@ -15,7 +16,7 @@ export function initKeycloakClient() {
 		clientId: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_ID,
 		bearerOnly: true,
 		serverUrl: KEYCLOCK_CONFIGS.KEYCLOAK_SERVER_URL,
-		realm: KEYCLOCK_CONFIGS.KEYCLOAK_REALM,
+		realm: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_REALM,
 		credentials: {
 			secret: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_SECRET,
 		},

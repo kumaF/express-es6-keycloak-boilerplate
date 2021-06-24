@@ -1,25 +1,22 @@
 /* eslint-disable no-console*/
 'use strict';
 
+import regeneratorRuntime from 'regenerator-runtime';
 import KcAdminClient from 'keycloak-admin';
 import { StatusCodes } from 'http-status-codes';
 
 import { KeycloakError } from '../exceptions';
 import { KEYCLOCK_CONFIGS } from '../configs';
 
-export async function initKeycloakAdminClient() {
+export async function initKeycloakAdminClient(accessToken) {
 	try {
-		const kcAdminClient = new KcAdminClient();
-
-		await kcAdminClient.auth({
-			username: KEYCLOCK_CONFIGS.KEYCLOAK_ADMIN_USERNAME,
-			password: KEYCLOCK_CONFIGS.KEYCLOAK_ADMIN_PASSWORD,
-			grantType: KEYCLOCK_CONFIGS.KEYCLOAK_ADMIN_GRANT_TYPE,
-			clientId: KEYCLOCK_CONFIGS.KEYCLOAK_ADMIN_CLIENT_ID,
+		const kcAdminClient = new KcAdminClient({
+			baseUrl: KEYCLOCK_CONFIGS.KEYCLOAK_SERVER_URL,
 		});
 
+		kcAdminClient.setAccessToken(accessToken);
 		kcAdminClient.setConfig({
-			realmName: KEYCLOCK_CONFIGS.KEYCLOAK_REALM,
+			realmName: KEYCLOCK_CONFIGS.KEYCLOAK_CLIENT_REALM,
 		});
 
 		return kcAdminClient;
